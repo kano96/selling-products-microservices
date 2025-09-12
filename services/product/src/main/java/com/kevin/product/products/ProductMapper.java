@@ -1,9 +1,9 @@
 package com.kevin.product.products;
 
 import com.kevin.product.category.Category;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class ProductMapper {
     public Product toProduct(ProductRequest request) {
         return Product.builder()
