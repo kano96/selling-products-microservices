@@ -6,8 +6,6 @@ INSERT INTO category (id, description, name) VALUES (nextval('category_seq'), 'C
 INSERT INTO category (id, description, name) VALUES (nextval('category_seq'), 'Computer Accessories', 'Accessories');
 
 
--- Assuming you already have a sequence named 'product_seq'
-
 -- Insert products for the 'Keyboards' category
 INSERT INTO public.product (id, available_quantity, description, name, price, category_id)
 VALUES
