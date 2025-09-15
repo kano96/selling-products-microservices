@@ -12,15 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
   private final ProductRepository repository;
   private final ProductMapper mapper;
 
-  public ProductService(ProductRepository repository, ProductMapper mapper) {
-    this.repository = repository;
-    this.mapper = mapper;
-  }
 
   public Integer createProduct(@Valid ProductRequest request) {
     var product = mapper.toProduct(request);
