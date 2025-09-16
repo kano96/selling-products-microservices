@@ -1,4 +1,4 @@
-package com.kevin.order.order.product;
+package com.kevin.order.product;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

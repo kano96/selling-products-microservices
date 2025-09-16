@@ -1,6 +1,6 @@
 package com.kevin.order.order;
 
-import com.kevin.order.order.product.PurchaseRequest;
+import com.kevin.order.product.PurchaseRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
