@@ -3,6 +3,7 @@ package com.kevin.order.order;
 import com.kevin.order.customer.CustomerClient;
 import com.kevin.order.exception.BusinessException;
 import com.kevin.order.product.ProductClient;
+import com.kevin.order.product.PurchaseRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class OrderService {
     private final ProductClient productClient;
     private final OrderRepository repository;
     private final OrderMapper mapper;
+    private final OrderLineService orderLineService;
 
     public Integer createOrder(@Valid OrderRequest request) {
         // Check the costumer --> Open Feign
@@ -28,8 +30,18 @@ public class OrderService {
         var order = repository.save(mapper.toOrder(request));
 
         // Persist Order Lines
+        for(PurchaseRequest purchaseRequest : request.products()) {
+            orderLineService.saveOrderLine(
+                new OrderLineRequest(
+                    null,
+                    order.getId(),
+                    purchaseRequest.productId(),
+                    purchaseRequest.quantity()
+                )
+            );
+        }
 
-        // Start Payment Process
+        // TODO: Start Payment Process
 
         // Send the order confirmation  --> notification-ms (kafka)
 
