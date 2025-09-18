@@ -2,9 +2,12 @@ package com.kevin.order.order;
 
 import com.kevin.order.customer.CustomerClient;
 import com.kevin.order.exception.BusinessException;
+import com.kevin.order.kafka.OrderConfirmation;
+import com.kevin.order.kafka.OrderProducer;
 import com.kevin.order.product.ProductClient;
 import com.kevin.order.product.PurchaseRequest;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ public class OrderService {
     private final OrderRepository repository;
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
+    private final OrderProducer orderProducer;
 
     public Integer createOrder(@Valid OrderRequest request) {
         // Check the costumer --> Open Feign
@@ -24,7 +28,7 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessException("Cannot create order. Customer not found with id: " + request.customerId()));
 
         // Purchase the products --> Products-ms (RestTemplate)
-        productClient.purchaseProducts(request.products());
+        var purchasedProducts = productClient.purchaseProducts(request.products());
 
         // Persist Order
         var order = repository.save(mapper.toOrder(request));
@@ -44,7 +48,22 @@ public class OrderService {
         // TODO: Start Payment Process
 
         // Send the order confirmation  --> notification-ms (kafka)
+        orderProducer.sendOrderConfirmation(
+            new OrderConfirmation(
+                request.reference(),
+                request.amount(),
+                request.paymentMethod(),
+                customer,
+                purchasedProducts
+            )
+        );
+        return order.getId();
+    }
 
-        return null;
+    public List<OrderResponse> findAll() {
+        return repository.findAll()
+            .stream()
+            .map(mapper::fromOrder)
+            .toList();
     }
 }
