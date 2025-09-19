@@ -4,8 +4,11 @@ import com.kevin.order.customer.CustomerClient;
 import com.kevin.order.exception.BusinessException;
 import com.kevin.order.kafka.OrderConfirmation;
 import com.kevin.order.kafka.OrderProducer;
+import com.kevin.order.orderLine.OrderLineRequest;
+import com.kevin.order.orderLine.OrderLineService;
 import com.kevin.order.product.ProductClient;
 import com.kevin.order.product.PurchaseRequest;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -65,5 +68,11 @@ public class OrderService {
             .stream()
             .map(mapper::fromOrder)
             .toList();
+    }
+
+    public OrderResponse findById(Integer id) {
+        return repository.findById(id)
+            .map(mapper::fromOrder)
+            .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
     }
 }

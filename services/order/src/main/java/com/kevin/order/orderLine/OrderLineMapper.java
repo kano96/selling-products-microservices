@@ -1,6 +1,6 @@
-package com.kevin.order.order;
+package com.kevin.order.orderLine;
 
-import com.kevin.order.orderLine.OrderLine;
+import com.kevin.order.order.Order;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,5 +17,9 @@ public class OrderLineMapper {
         )
         .productId(orderLineRequest.productId())
         .build();
+  }
+
+    public OrderLineResponse toOrderLineResponse(OrderLine orderLine) {
+        return new OrderLineResponse(orderLine.getId(),  orderLine.getQuantity());
   }
 }
