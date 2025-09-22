@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #e0e0e0; padding: 32px; }
+        h2 { color: #1565c0; }
+        .details { margin: 24px 0; }
+        .details span { display: block; margin-bottom: 8px; }
+        .products { margin: 24px 0; }
+        .products-table { width: 100%; border-collapse: collapse; }
+        .products-table th, .products-table td { border: 1px solid #e0e0e0; padding: 8px; text-align: left; }
+        .products-table th { background: #f0f0f0; }
+        .footer { margin-top: 32px; color: #888; font-size: 14px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>¡Pedido confirmado!</h2>
+    <p>Hola <strong th:text="${customerName}"></strong>,</p>
+    <div class="details">
+        <span>Total pagado: <strong th:text="${totalAmount}"></strong></span>
+        <span>Referencia de pedido: <strong th:text="${orderReference}"></strong></span>
+    </div>
+    <div class="products">
+        <h3>Productos adquiridos:</h3>
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.quantity}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Gracias por tu compra. Pronto recibirás más información sobre el envío.</p>
+    <div class="footer">
+        Si tienes alguna duda, responde a este correo.<br>
+        &copy; 2025 Tu Tienda
+    </div>
+</div>
+</body>
+</html>
+
