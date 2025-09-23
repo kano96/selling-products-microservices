@@ -7,8 +7,8 @@ spring:
     name: notification-service
   data:
     mongodb:
-      username: alibou
-      password: alibou
+      username: user
+      password: user
       host: localhost
       port: 27017
       database: notification
