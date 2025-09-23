@@ -31,16 +31,16 @@ public class CustomerService {
   }
 
   private void mergerCustomer(Customer customer, CustomerRequest request) {
-    if(StringUtils.isNotBlank(request.firstName())){
-      customer.setFirstName(request.firstName());
+    if(StringUtils.isNotBlank(request.firstname())){
+      customer.setFirstname(request.firstname());
     }
 
-    if(StringUtils.isNotBlank(request.lastName())){
-      customer.setFirstName(request.lastName());
+    if(StringUtils.isNotBlank(request.lastname())){
+      customer.setLastname(request.lastname());
     }
 
     if(StringUtils.isNotBlank(request.email())){
-      customer.setFirstName(request.email());
+      customer.setEmail(request.email());
     }
 
     if(request.address() != null){
